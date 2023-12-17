@@ -20,6 +20,8 @@ The architecture consists of four layers:
 3. [**Load Balancer** - Nginx](https://github.com/Dragan2402/zoss-23-24/tree/main/3.%20Load%20balancer%20layer)
 4. [**Client Layer** - Angular application](https://github.com/Dragan2402/zoss-23-24/tree/main/4.%20Client%20layer)
 
+![Architecture Image](ZossArchitecture.png)
+
 ## Brief Description of Technologies:
 
 ### [1. Cassandra](https://github.com/Dragan2402/zoss-23-24/tree/main/1.%20Database%20layer)
