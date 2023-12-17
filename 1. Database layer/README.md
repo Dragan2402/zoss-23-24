@@ -6,7 +6,7 @@ Without proper settings, malicious users can easily:
 
 - Craft internode messages to insert users into the authentication schema
 - Craft internode messages to truncate or drop the schema
-- Use tools such as sstableloader to overwrite system_auth tables
+- Use tools such as sstableloader to overwrite system_auth tables[[1.1]](https://cassandra.apache.org/doc/stable/cassandra/operating/security.html)
 - Attach to the cluster directly to capture write traffic
 
 ## Security Components in Cassandra
@@ -25,6 +25,18 @@ The most common attacks and issues that occur in Cassandra databases include:
 - Execution of arbitrary commands
 - Denial of Service (DOS)
 
+
+## Data theft attack graph
+
+![Data theft attack graph](cassandraDataTheft.png)
+
+## Execution of arbitrary commands attack graph
+
+![Execution of arbitrary commands attack graph](cassandraArbitaryCommands.png)
+
+## Denial of Service attack graph
+
+![DoS attack graph](cassandraDos.png)
 
 References:
 - [1.1 Cassandra Security documentation](https://cassandra.apache.org/doc/stable/cassandra/operating/security.html)
