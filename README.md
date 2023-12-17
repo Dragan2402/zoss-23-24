@@ -45,6 +45,8 @@ Angular is a development platform, built on TypeScript[[2]](https://angular.io/d
 
 Detailed information on security and attacks will be explained for each technology in their respective dedicated chapters.
 
+The first and last layer, **Database Layer** and **Client Layer**, will be covered by **Dragan Mirkovic**, while the internal layers, **Service Layer** and **Load Balancer**, will be handled by Bane Geric.
+
 References: 
 - [1. Cassandra documentation](https://cassandra.apache.org/doc/latest/index.html)
 - [2. Angular documentation](https://angular.io/docs)
