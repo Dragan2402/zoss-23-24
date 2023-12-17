@@ -13,10 +13,10 @@ Injections are very common attacks for web applications. They have its own categ
 - *Cross-Site Request Forgery (CSRF)*
 - *SQL Injection*
 
-
+![Injections](https://github.com/Dragan2402/zoss-23-24/blob/main/2.%20Service%20layer/Injections.png)
 
 ### TODO
--- text about CSRF --
+-- text about CSRF
 
 
 ### TODO
@@ -24,7 +24,9 @@ Injections are very common attacks for web applications. They have its own categ
 
 
 ## Attack on publicly exposed Werkzeug Debugger
-
+![Werkzeug](https://github.com/Dragan2402/zoss-23-24/blob/main/2.%20Service%20layer/Werkzeug.png)
 
 ### TODO
 -- text about publicly exposed Werkzeug Debugger
+
+[Article about hacking Patreon](https://labs.detectify.com/writeups/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/)
