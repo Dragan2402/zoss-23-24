@@ -15,7 +15,7 @@ The main readme file will explain the architecture and technologies used, along 
 ## Architecture
 
 The architecture consists of four layers:
-1. **Database Layer** - Cassandra NoSQL database
+1. [**Database Layer** - Cassandra NoSQL database](https://github.com/Dragan2402/zoss-23-24/tree/main/1.%20Database%20layer)
 2. **Service Layer** - Django application
 3. **Load Balancer** - Nginx
 4. **Client Layer** - Angular application
