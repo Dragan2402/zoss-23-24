@@ -8,6 +8,10 @@
 
 This project aims to illustrate a complex system and its layers. It will showcase each module, representing a technology, along with its strengths, weaknesses, and security aspects. For each module, the most common security attacks, potential solutions, and security issues they introduce will be presented.
 
+# Project Structure
+
+The main readme file will explain the architecture and technologies used, along with their explanations. The project will be organized with a folder structure where each folder corresponds to a unit in the system. Additionally, there will be two folders: "resources" and "additional things." The "resources" folder represents external sources used in the development of this solution, while the "additional things" folder will contain interesting facts, articles recommended for reading to expand knowledge, and other miscellaneous items.
+
 ## Architecture
 
 The architecture consists of four layers:
