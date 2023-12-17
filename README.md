@@ -28,11 +28,13 @@ The architecture consists of four layers:
 
 Cassandra is an open-source NoSQL distributed database that manages large amounts of data across commodity servers. It is a decentralized, scalable storage system designed to handle vast volumes of data across multiple commodity servers, providing high availability without a single point of failure[[1]](https://cassandra.apache.org/doc/latest/index.html).
 
-### [2. Django](https://github.com/Dragan2402/zoss-23-24/tree/main/2.%20Service%20layer)
--- Description to be added --
+### [2. Flask](https://github.com/Dragan2402/zoss-23-24/tree/main/2.%20Service%20layer)
+
+Flask is micro-framework used for creating web applications, that provides a solid core with the basic services, while extensions provide the rest. It contains two main dependencies. The routing, debugging, and Web Server Gateway Interface (WSGI) subsystems come from Werkzeug, while template support is provided by Jinja2 [[4]](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf).
 
 ### [3. Nginx](https://github.com/Dragan2402/zoss-23-24/tree/main/3.%20Load%20balancer%20layer)
--- Description to be added --
+
+NGINX is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. It started out as a web server designed for maximum performance and stability. In addition to its HTTP server capabilities, NGINX can also function as a proxy server for email (IMAP, POP3, and SMTP) and a reverse proxy and load balancer for HTTP, TCP, and UDP servers [[3]](https://www.nginx.com/resources/glossary/nginx/).
 
 ### [4. Angular](https://github.com/Dragan2402/zoss-23-24/tree/main/4.%20Client%20layer)
 
@@ -46,3 +48,5 @@ Detailed information on security and attacks will be explained for each technolo
 References: 
 - [1. Cassandra documentation](https://cassandra.apache.org/doc/latest/index.html)
 - [2. Angular documentation](https://angular.io/docs)
+- [3. Nginx documentation](https://www.nginx.com/resources/glossary/nginx/)
+- [4. Flask Web Development](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf)
