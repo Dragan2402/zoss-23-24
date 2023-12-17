@@ -26,7 +26,7 @@ The architecture consists of four layers:
 
 ### [1. Cassandra](https://github.com/Dragan2402/zoss-23-24/tree/main/1.%20Database%20layer)
 
-Cassandra is an open-source NoSQL distributed database that manages large amounts of data across commodity servers. It is a decentralized, scalable storage system designed to handle vast volumes of data across multiple commodity servers, providing high availability without a single point of failure.
+Cassandra is an open-source NoSQL distributed database that manages large amounts of data across commodity servers. It is a decentralized, scalable storage system designed to handle vast volumes of data across multiple commodity servers, providing high availability without a single point of failure[1.](https://cassandra.apache.org/doc/latest/index.html).
 
 ### [2. Django](https://github.com/Dragan2402/zoss-23-24/tree/main/2.%20Service%20layer)
 -- Description to be added --
@@ -42,3 +42,6 @@ Angular is a development platform, built on TypeScript. As a platform, Angular i
 - A suite of developer tools to aid in code development, building, testing, and updating
 
 Detailed information on security and attacks will be explained for each technology in their respective dedicated chapters.
+
+References: 
+[1. Cassandra documentation](https://cassandra.apache.org/doc/latest/index.html)
