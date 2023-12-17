@@ -30,9 +30,14 @@ The most common attacks and issues that occur in Cassandra databases include:
 
 ![Data theft attack graph](cassandraDataTheft.png)
 
+[Man in the Middle CVE Details](https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHECASSANDRA-1069886)
+
 ## Execution of arbitrary commands attack graph
 
 ![Execution of arbitrary commands attack graph](cassandraArbitaryCommands.png)
+
+[Privilege Escalation CVE Details](https://www.cvedetails.com/cve/CVE-2023-30601/)
+[Bad Configuration CVE Details](https://www.cvedetails.com/cve/CVE-2021-44521/)
 
 ## Denial of Service attack graph
 
@@ -40,3 +45,5 @@ The most common attacks and issues that occur in Cassandra databases include:
 
 References:
 - [1.1 Cassandra Security documentation](https://cassandra.apache.org/doc/stable/cassandra/operating/security.html)
+- [CVE Details](https://www.cvedetails.com)
+- [Snyk](https://security.snyk.io/)
