@@ -32,7 +32,10 @@ The architecture consists of four layers:
 
 ### 1. Cassandra
 
-Cassandra is an open-source NoSQL distributed and scalable storage system designed to handle large amounts of data across commodity servers that provides high availability without a single point of failure[[1]](https://cassandra.apache.org/doc/latest/index.html). Security analysis for Cassandra database is described on the following [page](https://github.com/Dragan2402/zoss-23-24/tree/main/1.%20Database%20layer).
+Cassandra is an open-source NoSQL distributed and scalable storage system designed to handle large amounts of data across commodity servers that provides high availability without a single point of failure[[1]](https://cassandra.apache.org/doc/latest/index.html). 
+Data is distributed across nodes, supporting replication and multi-data center deployment for redundancy and disaster recovery. The system scales linearly with the addition of nodes, providing uninterrupted read and write throughput. Cassandra is fault-tolerant, automatically replicating data to multiple nodes, with seamless node replacement in case of failures. It offers tunable consistency levels, prioritizing availability and partition tolerance[[1]](https://cassandra.apache.org/doc/latest/index.html). 
+
+The data model is a wide column store, allowing dynamic table modifications without blocking updates. However, Cassandra lacks support for joins and subqueries, emphasizing denormalization through features like collections. The system is Java-based, managed and monitored using Java Management Extensions (JMX), and provides metrics through tools like nodetool and Dropwizard[[1]](https://cassandra.apache.org/doc/latest/index.html). Security analysis for Cassandra database is described on the following [page](https://github.com/Dragan2402/zoss-23-24/tree/main/1.%20Database%20layer).
 
 ### 2. Flask
 
