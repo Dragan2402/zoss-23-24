@@ -4,9 +4,15 @@
   - Dragan Mirkovic, R2-27/2023
 
 
-# Project Overview
+# Shipping Solutions Overview
 
-This project aims to illustrate a complex system and its layers. It will showcase each module, representing a technology, along with its strengths, weaknesses, and security aspects. For each module, the most common security attacks, potential solutions, and security issues they introduce will be presented.
+This project aims to showcase the software system Shipping Solutions, including its complexity, the technologies used, and the cyber attacks and threats that each part of the system faces. It also highlights the mitigation and preventive measures taken to achieve a secure environment.
+
+Shipping Solutions is a logistics application designed for shippers and carriers to facilitate the international shipping process. The main functionality for shippers includes receiving quotes and making contracts with carriers, while carriers define quotas/prices for services and digitize their business. The application handles a large amount of data and information crucial to be preserved, such as contractual documents, transactions, and reports on goods. These resources are significant and could be exposed to potential misuse.
+
+The selection of appropriate technologies was crucial. Therefore, the technology stack of Cassandra, Flask, Nginx, and Angular was chosen, providing good performance and the necessary security for the system. An overview of these technologies is provided in the "Brief Description of Technologies" section.
+
+The structure of this work and how it is organized is presented in the following section, "Project Structure."
 
 # Project Structure
 
