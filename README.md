@@ -39,7 +39,15 @@ The data model is a wide column store, allowing dynamic table modifications with
 
 ### 2. Flask
 
-Flask is micro-framework used for creating web applications, that provides a solid core with the basic services, while extensions provide the rest. It contains two main dependencies. The routing, debugging, and Web Server Gateway Interface (WSGI) subsystems come from Werkzeug, while template support is provided by Jinja2 [[4]](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf). Further security considerations are described on the following [page](https://github.com/Dragan2402/zoss-23-24/tree/main/2.%20Service%20layer).
+Flask is a micro web framework written in Python and used for creating web applications, that provides a solid core with the basic services, while extensions provide the rest. It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions. However, all of them can be used in Flask as extensions. It contains two main dependencies. The routing, debugging, and Web Server Gateway Interface (WSGI) subsystems come from Werkzeug, while template support is provided by Jinja2 [[4]](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf).
+Werkzeug is a utility library that is used by Flask. It provides several featues:
+- Provides request and response objects that encapsulate incoming HTTP requests and outgoing HTTP responses and supports URL routing with patterns
+- Provides features like interactive debugging, a built-in debugger, and a reloader to automatically restart the server when changes are detected
+- The Web Server Gateway Interface (WSGI) is a simple calling convention for web servers to forward requests to web applications or frameworks written in the Python programming language. Flask itself is built on top of Werkzeug's WSGI toolkit, allowing it to seamlessly interface with different web servers[[5]](https://werkzeug.palletsprojects.com/en/3.0.x/)
+
+Jinja2 is a template engine for the Python programming language. It is similar to the Django web framework but provides Python-like expressions while ensuring that the templates are evaluated in a sandbox. It is a text-based template language and thus can be used to generate any markup as well as source code. Jinja2 implements automatic HTML escaping to prevent cross-site scripting (XSS) attacks[[6]](https://jinja.palletsprojects.com/en/3.1.x/).
+
+Further security considerations are described on the following [page](https://github.com/Dragan2402/zoss-23-24/tree/main/2.%20Service%20layer).
 
 ### 3. Nginx
 
@@ -60,3 +68,5 @@ References:
 - [2. Angular documentation](https://angular.io/docs)
 - [3. Nginx documentation](https://www.nginx.com/resources/glossary/nginx/)
 - [4. Flask Web Development](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf)
+- [5. Werkzeug documentation](https://werkzeug.palletsprojects.com/en/3.0.x/)
+- [6. Jinja documentation](https://jinja.palletsprojects.com/en/3.1.x/)
