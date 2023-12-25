@@ -40,6 +40,7 @@ The data model is a wide column store, allowing dynamic table modifications with
 ### 2. Flask
 
 Flask is a micro web framework written in Python and used for creating web applications, that provides a solid core with the basic services, while extensions provide the rest. It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions. However, all of them can be used in Flask as extensions. It contains two main dependencies. The routing, debugging, and Web Server Gateway Interface (WSGI) subsystems come from Werkzeug, while template support is provided by Jinja2 [[4]](https://coddyschool.com/upload/Flask_Web_Development_Developing.pdf).
+
 Werkzeug is a utility library that is used by Flask. It provides several featues:
 - Provides request and response objects that encapsulate incoming HTTP requests and outgoing HTTP responses and supports URL routing with patterns
 - Provides features like interactive debugging, a built-in debugger, and a reloader to automatically restart the server when changes are detected
