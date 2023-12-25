@@ -92,6 +92,54 @@ XSS attacks remain a persistent threat, but with a combination of secure coding 
 
 ![CSRF Attack graph](angularCSRF.png)
 
+**Cross-Site Request Forgery (CSRF) in Angular: Causes and Mitigations**
+
+Cross-Site Request Forgery (CSRF) is a security vulnerability that allows attackers to perform malicious actions on behalf of an authenticated user. In the context of Angular, CSRF attacks can manifest on the client side when the attacker manipulates client-side JavaScript code to send forged HTTP requests to a vulnerable target site. This often occurs when the JavaScript program uses attacker-controlled inputs, such as the URL, to generate asynchronous HTTP requests. The main idea behind these attacks are to execute
+arbitrary commands, modificate data and produce financial loss.
+
+**Causes of Client-Side CSRF Attacks:**
+Client-side CSRF in Angular differs from classical CSRF attacks where the server-side program is the most vulnerable. In client-side CSRF, the JavaScript program becomes the vulnerable component. The attacker can manipulate the client-side JavaScript to generate arbitrary asynchronous requests by controlling inputs such as the request endpoint and parameters. This introduces an input validation problem and reintroduces the confused deputy flaw, making it challenging for the server-side to distinguish intentional requests from malicious ones.
+
+**Attack Scenario:**
+Attackers typically share a malicious URL with victims, who unwittingly execute actions on a vulnerable website. Alternatively, attackers can create an attack page to abuse browser APIs and trick the target page's JavaScript into sending HTTP requests. This closely resembles the attack model of classical CSRF attacks.
+
+**Mitigations for Client-Side CSRF:**
+
+1. **Token Based Authentication:** Generating secure tokens for communication and validate them on sides. Utilize cryptography to enhance the integrity and confidentiality of these tokens.
+
+2. **Independent Requests:** Prevent client-side CSRF by disallowing asynchronous requests generated through attacker-controllable inputs like the URL, window name, document referrer, and postMessages.
+
+3. **Input Validation:** Implement input validation checks to ensure a strict assessment of the format and values of request parameters. This helps prevent state-changing operations and allows only safe operations.
+
+4. **Predefined Request Data:** Store a list of predefined, safe request data in the JavaScript code. This includes combinations of endpoints, request methods, and parameters that are safe to be replayed.
+
+**Defense In Depth Techniques:**
+
+1. **SameSite (Cookie Attribute):** Use SameSite cookie attribute to mitigate CSRF attacks. It defines whether cookies should be sent with cross-site requests. Values include Lax, Strict, or None.
+
+2. **Standard Headers to Verify Origin:** Use headers like Origin or Referer to verify the source and target origins of an HTTP request. Ensure the origins match to accept legitimate requests.
+
+3. **Cookies with Host Prefixes:** Use \_\_Host- prefixed cookies for CSRF tokens to prevent overwriting from other subdomains, ensuring a specific path, and enforcing secure transmission.
+
+**User Interaction-Based CSRF Defense:**
+
+While the mentioned techniques don't require user interaction, some strong CSRF defenses involve user interaction, such as re-authentication, one-time tokens, or CAPTCHA for critical operations.
+
+**CSRF Vulnerabilities in Login Forms:**
+
+Even in login forms, CSRF vulnerabilities can occur, allowing attackers to assume authenticated identities. Mitigate login CSRF by creating pre-sessions and including tokens in login forms.
+
+**JavaScript Implementation for CSRF Token Inclusion:**
+
+Automatically include CSRF tokens in AJAX request headers using the following techniques:
+
+- **XMLHttpRequest (Native JavaScript):** Override XMLHttpRequest's open() method to add the anti-csrf-token header for state-changing methods.
+- **AngularJS:** Set default headers for HTTP operations in AngularJS.
+- **Axios:** Set default headers for state-changing actions in Axios.
+- **JQuery:** Use $.ajaxSetup() to add the anti-csrf-token header to AJAX requests in jQuery.
+
+These implementation examples ensure that CSRF tokens are automatically included in requests, strengthening the security of state-changing operations in Angular applications.
+
 ## SSRF Attack
 
 ![SSRF Attack graph](angularSSRF.png)
