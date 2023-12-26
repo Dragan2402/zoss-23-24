@@ -106,6 +106,42 @@ server {
 ```
 When defining which IPs to block, monitor server logs for patterns of excessive requests from specific IPs, refer to IP reputation databases for known malicious IPs, and consider using geolocation data to block IP ranges associated with a high rate of DDoS attacks.
 
-### TODO:  SSL/TLS ciphers problems
+### Carriage Return Line Feed (CRLF) Injection
+Carriage Return Line Feed (CRLF) Injection is a type of web application security vulnerability that occurs when an attacker is able to inject CRLF characters (Carriage Return "\r" and Line Feed "\n") into input data. This type of injection can lead to various security issues, particularly in the context of HTTP headers.
+In the HTTP protocol, CRLF is used to signify the end of a header line and the beginning of a new one. An attacker exploiting CRLF Injection may attempt to insert these characters into user inputs or data transmitted between a client and a server, with the goal of manipulating or injecting additional headers.
 
+According to nginx documentation, `$uri` and `$document_uri` contain the normalized URI whereas the normalization includes URL decoding the URI.
+This is example of how you do **not** want to configure your nginx:
+```nginx
+location /static/ {
+  return 302 https://example.com$uri;
+}
+```
+This works fine until we try to inject a CRLF like `/static/%0d%0aX-Foo:%20CLRF`. The response will look like this:
+```
+> GET /static/%0d%0aX-Foo:%20CLRF HTTP/1.1
+> Host: 127.0.0.1:8081
+> User-Agent: curl/7.74.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 Moved Temporarily
+< Server: nginx/1.19.8
+< Date: Mon, 29 Mar 2021 09:05:45 GMT
+< Content-Type: text/html
+< Content-Length: 145
+< Connection: keep-alive
+< Location: http://172.17.0.1/static/
+< X-Foo: CLRF
+< 
+...
+```
+
+#### Mitigations
+As we can see there is an **injected header**. However there is a solution for this problem and that is to avoid using `$uri` or `$document_uri` and insead use `$request_uri`. Now our location block looks like this:
+```nginx
+location /static/ {
+    return 302 http://172.17.0.1$request_uri;
+}
+```
 
