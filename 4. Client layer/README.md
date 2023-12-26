@@ -31,17 +31,15 @@ Angular is a relatively secure layer in systems, as long as the recommendations 
 
 **Introduction:**
 
-Cross-Site Scripting (XSS) attacks pose a significant threat to web applications, including those built with Angular. XSS is not only about stealing data but has evolved to encompass injecting malicious content. The repercussions of XSS attacks include account impersonation, data theft, session hijacking, and cookie theft. This essay explores the causes of XSS attacks, focusing on unsanitized input, dynamic content generation, and template injection, while providing mitigation strategies based on the OWASP Cross Site Scripting Prevention Cheat Sheet.
+Cross-Site Scripting (XSS) attacks pose a significant threat to web applications, including those built with Angular. XSS is not only about stealing data but has evolved to encompass injecting malicious content[[4.7]](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html). The repercussions of XSS attacks include account impersonation, data theft, session hijacking, and cookie theft. This essay explores the causes of XSS attacks, focusing on unsanitized input, dynamic content generation, and template injection, while providing mitigation strategies based on the OWASP Cross Site Scripting Prevention Cheat Sheet[[4.7]](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html).
 
 **Causes of XSS Attacks:**
 
 1. **Unsanitized Input:**
-
    - **Description:** All user inputs should be treated as potentially malicious. Failure to sanitize user inputs allows attackers to inject scripts that can later execute when viewed by other users.
    - **Mitigation:** Implement strict input validation and sanitize user inputs before rendering them in the application. Angular's built-in mechanisms for input validation can help achieve this.
 
 2. **Dynamic Content Generation:**
-
    - **Description:** Generating dynamic content without proper encoding or escaping leaves room for attackers to inject malicious scripts.
    - **Mitigation:** To enhance security in Angular, it is crucial to utilize the built-in templating system, which automatically escapes dynamic content, preventing the execution of potentially harmful scripts. Developers should refrain from employing methods like `dangerouslySetInnerHTML` in Angular, as they can introduce vulnerabilities by allowing unescaped content to be rendered in the application, increasing the risk of cross-site scripting attacks.
 
@@ -80,10 +78,6 @@ Output encoding is a fundamental defense against XSS. It involves converting unt
 
 When users author HTML content, output encoding alone may break intended functionality. HTML sanitization, using tools like DOMPurify, helps strip dangerous HTML, providing a safe HTML string.
 
-**Safe Sinks:**
-
-Security professionals emphasize safe sinks, where variables are placed into webpages without execution. Refactor code to use safe sinks like textContent or value, avoiding unsafe sinks like innerHTML.
-
 **Conclusion:**
 
 XSS attacks remain a persistent threat, but with a combination of secure coding practices, output encoding, HTML sanitization, and awareness of framework security features, developers can significantly reduce the risk of XSS vulnerabilities in Angular projects.
@@ -94,11 +88,11 @@ XSS attacks remain a persistent threat, but with a combination of secure coding 
 
 **Cross-Site Request Forgery (CSRF) in Angular: Causes and Mitigations**
 
-Cross-Site Request Forgery (CSRF) is a security vulnerability that allows attackers to perform malicious actions on behalf of an authenticated user. In the context of Angular, CSRF attacks can manifest on the client side when the attacker manipulates client-side JavaScript code to send forged HTTP requests to a vulnerable target site. This often occurs when the JavaScript program uses attacker-controlled inputs, such as the URL, to generate asynchronous HTTP requests. The main idea behind these attacks are to execute
+Cross-Site Request Forgery (CSRF) is a security vulnerability that allows attackers to perform malicious actions on behalf of an authenticated user. In the context of Angular, CSRF attacks can manifest on the client side when the attacker manipulates client-side JavaScript code to send forged HTTP requests to a vulnerable target site[[4.6]](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html). This often occurs when the JavaScript program uses attacker-controlled inputs, such as the URL, to generate asynchronous HTTP requests. The main idea behind these attacks are to execute
 arbitrary commands, modificate data and produce financial loss.
 
 **Causes of Client-Side CSRF Attacks:**
-Client-side CSRF in Angular differs from classical CSRF attacks where the server-side program is the most vulnerable. In client-side CSRF, the JavaScript program becomes the vulnerable component. The attacker can manipulate the client-side JavaScript to generate arbitrary asynchronous requests by controlling inputs such as the request endpoint and parameters. This introduces an input validation problem and reintroduces the confused deputy flaw, making it challenging for the server-side to distinguish intentional requests from malicious ones.
+Client-side CSRF in Angular differs from classical CSRF attacks where the server-side program is the most vulnerable[[4.6]](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html). In client-side CSRF, the JavaScript program becomes the vulnerable component. The attacker can manipulate the client-side JavaScript to generate arbitrary asynchronous requests by controlling inputs such as the request endpoint and parameters. This introduces an input validation problem and reintroduces the confused deputy flaw, making it challenging for the server-side to distinguish intentional requests from malicious ones.
 
 **Attack Scenario:**
 Attackers typically share a malicious URL with victims, who unwittingly execute actions on a vulnerable website. Alternatively, attackers can create an attack page to abuse browser APIs and trick the target page's JavaScript into sending HTTP requests. This closely resembles the attack model of classical CSRF attacks.
@@ -144,8 +138,44 @@ These implementation examples ensure that CSRF tokens are automatically included
 
 ![SSRF Attack graph](angularSSRF.png)
 
+**SSRF Attack in Angular:**
+
+**Explanation:**
+
+**Server-Side Request Forgery (SSRF)** attacks in Angular involve manipulating the server to make unintended requests to internal or external domains. In Angular applications, attackers exploit functionalities that involve importing data from a URL, publishing data to a URL, or reading data from a URL that can be manipulated[[4.4]](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html).
+
+**Things that attackers seek to achieve via SSRF:**
+
+1. **DDoS (Distributed Denial of Service):** Attackers can abuse SSRF to send a large volume of requests from the vulnerable server to overwhelm and disrupt external systems, leading to a denial of service.
+
+2. **Remote Code Execution:** SSRF allows attackers to make the server connect back to itself or internal services. This can lead to the execution of arbitrary code, compromising the security and integrity of the application.
+
+3. **Compromised Internal Systems and Port Scanning:** Attackers can leverage SSRF to access internal resources, such as cloud metadata, databases, or REST interfaces. This can result in unauthorized access, extraction of sensitive data, and even internal port scanning for identifying and exploiting unsecured services.
+
+**Most common attacks[[4.5]](https://brightsec.com/blog/ssrf-server-side-request-forgery/):**
+
+1. **Attack Against the Server:** Injecting SSRF payloads into parameters that accept URLs or files, attackers can access internal resources, pages, and files. For instance, by manipulating the URL, an attacker may access the /admin panel or read files from the server.
+
+2. **Cross-Site Port Attack (XSPA):** In this type of SSRF, attackers can scan the server for open ports using the loopback interface (127.0.0.1 or localhost). This involves trying to access various ports to gather information about the server's vulnerabilities.
+
+**Mitigations:**
+
+1. **Authentication of Internal Services:** Ensure that authentication is enabled for all internal services running within the network. Even services that don't require authentication for normal operations should have it enabled to prevent exploitation.
+
+2. **Whitelists and DNS Resolution:** Implement whitelists for approved domains and addresses that the application can access. Strictly control DNS resolution to trusted and intended domain names, preventing unauthorized access.
+
+3. **Restricting Connectivity to Internal Ports:** Limit access to internal ports, preventing SSRF attacks from exploiting services on those ports. This helps in controlling and securing communication within the internal network.
+
+4. **Disabling Unused URL Schemas:** Allow only the URL schemas that the application uses. Disable unnecessary schemas like ftp, file, etc., if they are not required for the application's functionality. This reduces the attack surface and minimizes the risk of SSRF.
+
+By implementing these preventive measures, Angular applications can enhance their resilience against SSRF attacks, protecting sensitive data, internal systems, and ensuring the overall security of the application.
+
 References:
 
 - [4.1 OWSAP Top 10 Web Application Security Risks](https://owasp.org/www-project-top-ten/)
 - [4.2 Angular Security](https://angular.io/guide/security)
 - [4.3 OWSAP Prevention measures](https://community.f5.com/t5/technical-articles/mitigating-owasp-web-application-security-top-10-2021-risks/ta-p/311403)
+- [4.4 OWSAP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [4.5 Bright-SSRF Attacks](https://brightsec.com/blog/ssrf-server-side-request-forgery/)
+- [4.6 OWSAP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [4.7 OWSAP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
