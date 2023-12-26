@@ -66,7 +66,44 @@ At the end, let's see how the CSRF token workflow looks like:
 -- slika
 
 ### SQL Injection
--- text about SQL injection
+A SQL injection attack consists of insertion or "injection" of a SQL query via the input data from the client to the application. A successful SQL injection exploit can read sensitive data from the database, modify database data (Insert/Update/Delete), execute administration operations on the database (such as shutdown the DBMS), recover the content of a given file present on the DBMS file system and in some cases issue commands to the operating system. SQL injection attacks are a type of injection attack, in which SQL commands are injected into data-plane input in order to affect the execution of predefined SQL commands.
+
+SQL injection attack occurs when:
+- An unintended data enters a program from an untrusted source.
+- The data is used to dynamically construct a SQL query
+
+This can lead to very dangerous consequences such as: **reading sensitive data**, **authentication and authorization** with stolen username and password or even **deleting data in database**.
+
+#### Attack scenario
+Lets use as an example an application that lets users log in with a username and password. If a user submits the username `wiener` and the password `bluecheese`, the application checks the credentials by performing the following SQL query:
+```sql
+SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
+```
+If the query returns the details of a user, then the login is successful. Otherwise, it is rejected.
+
+In this case, an attacker can log in as any user without the need for a password. They can do this using the SQL comment sequence `--` to remove the password check from the _WHERE_ clause of the query. For example, submitting the username `administrator'--` and a blank password results in the following query:
+```sql
+SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
+```
+This query returns the user whose username is administrator and successfully logs the attacker in as that user.
+
+#### Mitigations
+There are several mitigations in order to prevent SQL injection in FLask. First we should validate input on client and on server side. Note that validating input only on client side isn't enough because attacker can send request through command line, bash, postman... This can be done with simple if statemants and regular expressions.
+
+Another way to prevent SQL injection is to sanitize the input values, which means removing or escaping any characters that could be interpreted as SQL commands or keywords. You can use functions or libraries that encode or escape special characters, such as quotes, semicolons, dashes, or comments.
+
+Depending on your choice, you can use _plain_ SQL statement with **psycopg2** for PostgreSQL database or some ORM (most popular is SQLAlchemy). If you choose to use plain SQL then it is mandatory to use prepared SQL statements. 
+- **psycopg2** is a PostgreSQL adapter for the Python programming language. It provides support for various advanced features of PostgreSQL, such as server-side cursors, asynchronous communication, and more. Prepared SQL statements prevent attacker to input SQL statement in your statement and then when you execute it they get unexpected result. Below is the example of how to use prepared SQL statement in Flask. The `sql.Literal(user_id)` is used to safely insert the user_id into the prepared statement, preventing SQL injection.
+```python
+query = sql.SQL("SELECT * FROM users WHERE id = {}").format(sql.Literal(user_id))
+cur.execute(query)
+```
+
+- On the other hand if you choose ORM then it is little easier to prevent SQL injections. SQLAlchemy is an open-source SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides a set of high-level API for communicating with relational databases and abstracts the SQL operations, allowing developers to interact with databases using Python objects and methods. SQLAlchemy supports a wide range of relational databases, making it a versatile choice for database operations in Python applications.
+In a Flask application, SQLAlchemy is commonly used to interact with databases, and it provides a way to prevent SQL injection by using parameterized queries through its ORM capabilities. This is an example of how to use prepared SQL statement in SQLAlchemy:
+```python
+user = User.query.filter_by(username='example_user').first()
+```
 
 
 ## Attack on publicly exposed Werkzeug Debugger
