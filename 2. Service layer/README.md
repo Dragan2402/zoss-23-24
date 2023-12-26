@@ -109,7 +109,24 @@ user = User.query.filter_by(username='example_user').first()
 ## Attack on publicly exposed Werkzeug Debugger
 ![Werkzeug](https://github.com/Dragan2402/zoss-23-24/blob/main/2.%20Service%20layer/Werkzeug.png)
 
-### TODO
--- text about publicly exposed Werkzeug Debugger
+### Attack on publicly exposed Werkzeug Debugger
+The Werkzeug Debugger is a powerful interactive debugger provided by the Werkzeug utility library, which is often used with Flask. When an unhandled exception occurs during the execution of a Flask application, the Werkzeug Debugger steps in to provide a detailed interactive debugging environment in the web browser. It offers valuable insights into the state of the application, the call stack, and the variables at the point of the error. To enable the Werkzeug Debugger in a Flask application during development, you just need to set the debug mode to True when running the application:
+```python
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+Exposing the Werkzeug Debugger in a production environment is strongly discouraged due to security risks.
 
+#### Attack scenario
+Werkzeug Debugger works in the way that, as soon as something in the code results in an exception or error, a console is opened. This is known as a Remote Code Execution (RCE). You can inject code directly to the application, exposing all data on the server which the application has access to. Now, Werkzeug requires an actual error to trigger the console, as it uses a secret key generated when the application starts, which is only exposed in the Werkzeug Debugger page. Without this secret key you cannot run any commands, that’s why you need an exception to reveal the secret. Also worth noting is that the debugger only accepts commands sent in by the GET-parameter, which will then show up in access logs on the vulnerable host, which is great for forensic analysis and investigation.
+
+#### Mitigations
+The simplest way to prevent exposing Werkzeug debugger in production enviroment is to just set it to False. Then you are 100% sure that it is not exposed and cannot be accessed from anybody outside. This code snippet shows how to do it:
+```python
+if __name__ == '__main__':
+    app.run(debug=False)
+```
+_False_ is also a default value.
+
+There was an actual hacker attack on Patreon which you can read about on the following page:
 [Article about hacking Patreon](https://labs.detectify.com/writeups/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/)
