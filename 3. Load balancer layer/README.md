@@ -3,6 +3,54 @@
 NGINX is very powerful, open-source, web server, load balancer, reverse proxy and more used by more than 60% of the internet web sites. Therefore it can be very interesting target for attackers. There are several reasons why would NGINX be interesting for attackers such as: many high-traffic and critical websites use Nginx for its performance and scalability, it is often used as a reverse proxy and load balancer, handling incoming requests and distributing traffic across multiple servers. Attacking the proxy layer allows attackers to impact multiple servers behind it. As NGINX can be used to handle SSL/TLS certificates, attackers may attempt to exploit vulnerabilities related to encryption protocols or certificate handling.
 
 ### HTTP Strict Transport Security with MitM attack
+The Man-in-the-Middle (MitM) attack is a fundamental network session hijacking technique. This attack can block, alter, or intercept network traffic. For example, an attacker using MitM might discreetly capture a user's login details, steal credit card information, or launch a denial-of-service attack. In this attack, the attacker positions themselves between the victim and the desired server. If traffic is encrypted, the attacker may devise ways to decrypt it. They might either listen to the communication passively or modify messages actively before passing them on. If messages were decrypted, they're re-encrypted (possibly after alteration) and then forwarded. MitM attacks can lead to data breaches, financial scams, and eroding user confidence.
+
+#### How a MitM Attack Works
+A successful MitM attack works in two stages. The initial stage is about intercepting traffic. In the next stage, the attacker might just eavesdrop, or they could decrypt, modify, re-encrypt, and transfer messages between the communicating parties.
+Several interception techniques include:
+- **Public Wi-Fi Sniffing**: Attacker creates a deceptive Wi-Fi hotspot in public area. Unsuspecting users connect, allowing the attacker to access all their traffic.
+- **ARP Spoofing**: Through fake ARP messages, an attacker can link their MAC address with another host's IP, diverting traffic intended for that IP to themselves.
+- **SSL Stripping**: In this approach, attackers force victims to shift from a secure HTTPS connection to insecure HTTP, simplifying traffic interception and reading.
+- **IP Spoofing**: Here, by tweaking packet headers in an IP address, an attacker masquerades as a genuine application. Thus, when users try accessing a linked URL, they're directed to the attacker's site.
+- **DNS Spoofing (or Cache Poisoning)**: This involves compromising a DNS server and modifying a website’s address record. Consequently, users trying to visit the website are misled by the tampered DNS record to the attacker's site.
+
+Once two-way SSL traffic is intercepted, the challenge is decrypting it without raising suspicion from either the user or the application. Several techniques can accomplish this:
+- **SSL Stripping**: This technique intercepts the secure authentication (TLS) sent from the application towards the user, converting a HTTPS connection to a less secure HTTP one. The user receives an unencrypted version of the application's website, whereas the attacker keeps the encrypted connection with the actual application. This exposes the user's entire session to the attacker.
+- **SSL Hijacking**: In this method, during a TCP handshake, the attacker provides counterfeit authentication keys to both the user and the application. This creates an illusion of a secure connection, while in reality, the attacker oversees the whole session.
+- **HTTPS Spoofing**: When a user initially tries to connect to a secure site, this method sends a fake certificate to the user's browser. This certificate contains a digital signature linked to the targeted application. The browser cross-references this with its list of trusted sites. If deemed trustworthy, the attacker gains access to information the user inputs before it reaches the actual application.
+
+#### Mitigations
+There is a primary way to defend against MitM attacks during HTTP sessions and it's called **HTTP Strict Transport Security (HSTS)**. HTTPS, denoting HTTP encrypted with SSL or TLS, stands as a main component in establishing website traffic security. By using encryption, it significantly complicates an attacker's ability to intercept, change, or forge communication between a user and the website.
+In scenarios where a user manually enters a web domain (omitting the http:// or https:// prefix) or follows an unsecured http:// link, the initial request to the website is transmitted without encryption, utilizing plain HTTP. Although most secure websites promptly respond with a redirect to move the user to an HTTPS connection, a strategically positioned attacker could execute a man-in-the-middle (MITM) attack, intercepting the initial HTTP request and potentially gaining control over the user's session.
+To mitigate this potential vulnerability, HTTP Strict Transport Security (HSTS) comes into play by instructing the browser that a specific domain should only be accessed using HTTPS. Even if a user inputs or follows a basic HTTP link, the browser elevates the connection to HTTPS, providing an additional layer of protection against potential security threats.
+
+This is established by sending the following HTTP response header from secure (HTTPS) websites:
+```nginx
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+```
+The optional `includeSubDomain`s parameter tells the browser that the HSTS policy also applies to all subdomains of the current domain. The `always` parameter ensures that the header is set for all responses, including internally generated error responses.
+
+It is important to point out that if you use inherited headers you just need to place the `add_header` directive in the top‑level server block, **but** if a block includes an `add_header` directive itself, it does not inherit headers from enclosing blocks, and you need to redeclare **all** `add_header` directives:
+```nginx
+server {
+    listen 443 ssl;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # This 'location' block inherits the STS header
+    location / {
+        root /usr/share/nginx/html;
+    }
+
+    # Because this 'location' block contains another 'add_header' directive,
+    # we must redeclare the STS header
+    location /servlet {
+        add_header X-Served-By "My Servlet Handler";
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        proxy_pass http://localhost:8080;
+    }
+}
+```
 
 ### DDoS attack
 Application-layer attacks, referred to as layer 7 DDoS attacks, focus on the uppermost layer of the OSI (Open Systems Interconnection) model—the application layer. This layer encompasses common internet requests like HTTP GET and HTTP POST. What makes these attacks potent is their ability to consume both server and network resources, resulting in notable disruptions with a lower total bandwidth requirement compared to alternative DDoS attack types. Moreover, application layer attacks tend to be more sophisticated and challenging to identify and counteract than their counterparts.
